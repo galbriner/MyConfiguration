@@ -115,6 +115,11 @@ let Tlist_Use_SingleClick = 1
 let Tlist_File_Fold_Auto_Close = 1
 let Tlist_Ctags_Cmd = '/usr/local/bin/ctags'
 
+" ctags plugin
+let g:ctags_path='/usr/bin/ctags'
+let generate_tags=1
+let g:ctags_statusline=1
+
 " keybindings
 "map <Leader>T :Tlist<CR>
 "map <Leader>N :NERDTree<CR>
