@@ -113,12 +113,58 @@ let Tlist_Show_Menu = 1
 let Tlist_Enable_Fold_Column = 0
 let Tlist_Use_SingleClick = 1
 let Tlist_File_Fold_Auto_Close = 1
-let Tlist_Ctags_Cmd = '/usr/local/bin/ctags'
+let Tlist_Ctags_Cmd = '/usr/bin/ctags'
 
 " ctags plugin
 let g:ctags_path='/usr/bin/ctags'
 let generate_tags=1
 let g:ctags_statusline=1
+
+" ctags for Qt4,Open GL,STL, and myth
+" before adding these lines create the directory ~/.vim/tags/
+" cd to that directory and run the following commands
+" ctags -R --sort=yes --c++-kinds=+p --fields=+iaS --extra=+q
+" --language-force=C++ -f gl /usr/include/GL/
+" ctags -R --sort=yes --c++-kinds=+p --fields=+iaS --extra=+q
+"  --language-force=C++ -f cpp /usr/include/c++
+" ctags -R --sort=yes --c++-kinds=+p --fields=+iaS --extra=+q
+"  --language-force=C++ -f qt4 /usr/include/qt4/
+" ctags -R --sort=yes --c++-kinds=+p --fields=+iaS --extra=+q
+"  --language-force=C++ -f mythplugins /home/galb/mythtv/mythplugins/
+" ctags -R --sort=yes --c++-kinds=+p --fields=+iaS --extra=+q
+"  --language-force=C++ -f mythtv /home/galb/mythtv/mythtv/
+set tags+=~/.vim/tags/mythtv
+set tags+=~/.vim/tags/mythplugins
+set tags+=~/.vim/tags/qt4
+set tags+=~/.vim/tags/gl
+set tags+=~/.vim/tags/cpp
+
+"bind the key for omnicomplete to CTRL-X CTRL-O
+filetype on
+filetype plugin on
+set nocp
+"as an alternative to keybinding above, the commands below
+"will cause the omnicomplete to activate automatically
+autocmd FileType python set omnifunc=pythoncomplete#Complete
+autocmd FileType javascript set omnifunc=javascriptcomplete#CompleteJS
+autocmd FileType html set omnifunc=htmlcomplete#CompleteTags
+autocmd FileType css set omnifunc=csscomplete#CompleteCSS
+autocmd FileType xml set omnifunc=xmlcomplete#CompleteTags
+autocmd FileType php set omnifunc=phpcomplete#CompletePHP
+autocmd FileType c set omnifunc=ccomplete#CompleteCpp
+" this setting will open list of option after :: (e.g. QString::), in addition
+" to . and ->
+let OmniCpp_MayCompleteScope = 1
+
+" this function will open qt help on firefox
+" Note: package qt4-doc-html must be install, in order to this function to work
+function! QtClassDoc()
+	let qt_dir = "/usr/share/qt4/doc/html/"
+	let class = tolower(expand("<cword>"))
+	silent execute "!/usr/bin/firefox " . qt_dir . class . ".html &>/dev/null" . " &" | redraw!
+endfunction
+" bind CTRL-H to the function
+nmap <silent> <C-h> <Esc>:call QtClassDoc()<CR>
 
 " keybindings
 "map <Leader>T :Tlist<CR>
